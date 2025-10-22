@@ -1,0 +1,42 @@
+html {
+  background-color: #ddbeaa;
+  height: 100vh;
+}
+body {
+  height: 100vh;
+  margin: 0;
+}
+.main-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#a1 {
+  color: aquamarine;
+}
+#a2 {
+  color: blueviolet;
+}
+#a3 {
+  color: brown;
+}
+
+h1 {
+  padding-left: 30px;
+}
+
+h2 {
+  padding-left: 30px;
+  color: blueviolet;
+}
+
+#img1 {
+  text-align: center;
+}
+
+p {
+  padding-inline: 50px;
+}
