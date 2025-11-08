@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="contact-body">
+    <div
+      class="red_vic"
+      ,
+      style="display: flex; flex-direction: column; align-items: center"
+    >
+      <header class="megadeth_logo"><img src="logo2.png" /></header>
+      <nav class="navbar">
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="wrapper">
+        <form onsubmit="return ValiditeForm()">
+          <h1>Contact <menu></menu></h1>
+          <div style="display: flex">
+            <div class="input-box-email">
+              <input type="text" placeholder="Email" />
+            </div>
+
+            <div class="input-box-topic">
+              <input list="cells" , placeholder="Topic" />
+            </div>
+          </div>
+
+          <div class="contents">
+            <textarea placeholder="Contents"></textarea>
+          </div>
+
+          <datalist id="cells">
+            <option
+              value="Question about Megadeth’s lineup changes over the years"
+            ></option>
+            <option value="Issue with playing videos on your site"></option>
+            <option
+              value="Request for more photos or videos from the Rust in Peace era"
+            ></option>
+            <option value="Feedback about your Megadeth history page"></option>
+          </datalist>
+
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>Paweł Pochwalski</footer>
+    <script src="index.js"></script>
+  </body>
+</html>
