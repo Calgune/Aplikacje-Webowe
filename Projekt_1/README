@@ -2,5 +2,5 @@ na ocene dodatkową:
 -strona zawiera walidację danych w formularzu
 -strona zawiera zegar
 -strona jest responsywna (nic na siebie raczej nie nachodzi), ale 
-czasami wygląd może nie być bardzo ładny, ale funkcjonalny.
+czasami wygląd może nie być bardzo ładny, ale funkcjonalny, głownie chodzi mi o grid, który zrobiłem w gallery.
 -strona posiada kolejny element js czyli easter egg ukryty w lewym górym rogu na stronie home. po kliknięciu 3 razy na obrazający się obrazek.
