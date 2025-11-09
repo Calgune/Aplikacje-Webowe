@@ -3,16 +3,44 @@
   src: url(MetalMania-Regular.ttf);
 }
 
+html,
+body {
+  font-family: MetalFont;
+  background: #000000;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#lg1 {
+  width: 20%;
+}
+
+.logo_and_time {
+  display: flex;
+  background-color: transparent;
+  width: 100%;
+}
+
 #clock {
-  color: black;
-  font-size: 24px;
+  font-size: 18px;
+  padding: px;
 }
 
 #clock-container {
-  position: absolute;
-  top: 10px; /* od góry ekranu */
-  right: 10px; /* od prawej krawędzi */
-  padding: 10px;
+  display: flex;
+  justify-content: end;
+  width: 20%;
+}
+
+.logo {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: min(400px, 100%);
 }
 
 .navbar ul {
@@ -23,7 +51,6 @@
 }
 
 .navbar a {
-  color: rgba(44, 25, 33);
   text-decoration: none;
   padding: 15px;
   display: flex;
@@ -31,7 +58,22 @@
   font-size: 24px;
 }
 
+.red_vic a {
+  color: black;
+}
+.blue_vic a {
+  color: white;
+}
+.jet_vic a {
+  color: white;
+}
+
+.header a {
+  color: white;
+}
+
 .navbar a:hover {
+  scale: 1.1;
   border-radius: 20px;
   background-color: rgba(124, 124, 124, 0.24);
 }
@@ -55,7 +97,12 @@
 }
 
 .basic_band_info {
-  margin: 150px;
+  margin: 100px;
+  margin-top: 250px;
+  margin-bottom: 250px;
+
+  gap: 80px;
+
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -67,10 +114,8 @@
 }
 
 .basic_band_text {
-  width: 500px;
   font-size: 20px;
-  margin-left: 70px;
-  margin-right: 70px;
+
   gap: 40px;
 
   display: flex;
@@ -83,20 +128,21 @@
   color: white;
 }
 
-.basic_band_info .image_div img {
-  object-fit: cover;
-  width: 100%;
-  height: 80%;
-}
 .basic_band_info .image_div {
-  display: flex;
-  align-items: center;
+  max-width: 600px;
+  min-width: 360px;
+  border-radius: 40px;
 }
 
-.basic_band_info div {
-  width: 600px;
-  height: 400px;
-  position: relative;
+.basic_band_info .image_div img {
+  border-radius: 40px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.basic_band_text {
+  width: max(50%, 400px);
 }
 
 .basic_band_info:nth-child(even) {
@@ -116,50 +162,57 @@ footer {
 }
 
 body {
-  font-family: MetalFont;
   margin: 0;
-  background: #000000;
 }
 
 .red_vic {
-  height: 100vh;
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
 
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, black 100%),
+  align-items: center;
+
+  color: black;
+  height: 100vh;
+  width: 100%;
+
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, black 100%),
     url(tlo-ps.jpg);
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
-.red_vic.small {
-  height: 30vh;
-}
+.jet_vic {
+  display: flex;
+  flex-direction: column;
 
-.red_vic.big {
-  height: 100vh;
+  align-items: center;
+
+  color: black;
+  height: 160vh;
+  width: 100%;
+
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, black 100%),
+    linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgb(0, 0, 0) 100%),
+    url(images/jet_vic_background.jpg);
+
+  background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .blue_vic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, black 100%),
     linear-gradient(to top, rgba(0, 0, 0, 0) 70%, black 100%), url(tlo-rip.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.band_photo {
-  width: 10%;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 85%, black 100%),
-    linear-gradient(to top, rgba(0, 0, 0, 0) 85%, black 100%),
-    linear-gradient(to left, rgba(0, 0, 0, 0) 85%, black 100%),
-    linear-gradient(to right, rgba(0, 0, 0, 0) 85%, black 100%), url(band1.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-
 }
 
 .megadeth_logo {
@@ -184,7 +237,7 @@ body {
 }
 
 .wrapper {
-  width: 38%;
+  width: max(50%, 600px);
   color: black;
   padding: 30px 40px;
   border-radius: 10px;
@@ -229,13 +282,9 @@ textarea {
   background: transparent;
   border: none;
   outline: none;
-  border: 2px solid rgba(0, 0, 0, 0.39);
+  border: 2px solid rgba(34, 34, 34, 0.39);
   border-radius: 40px;
   padding: 20px 45px 20px 20px;
-}
-
-textarea {
-  height: 200px;
 }
 
 input::placeholder {
@@ -246,14 +295,16 @@ input::placeholder {
 textarea::placeholder {
   color: rgb(255, 255, 255);
   font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .wrapper .btn {
+  font-family: Arial, Helvetica, sans-serif;
   margin: 30px 0px 20px 0px;
   color: #ffffff;
   width: 100%;
   height: 45px;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(20, 20, 20);
   border: none;
   outline: none;
   border-radius: 40px;
@@ -262,11 +313,86 @@ textarea::placeholder {
   font-weight: 600;
 }
 
-/* sprawia że  */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: #000 !important;
+.btn:hover {
+  background-color: rgb(41, 41, 41);
+  border: 2px solid rgb(61, 61, 61);
+  scale: 1.05;
+}
+
+#wrapper_container {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery img {
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery img.t1x2 {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+.gallery img.t2x3 {
+  grid-column: span 2;
+  grid-row: span 3;
+}
+.gallery img.t2x2 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.gallery img.t3x3 {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+.gallery img.t4x4 {
+  grid-column: span 4;
+  grid-row: span 4;
+}
+
+.gallery img.t1x1 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+img {
+  transition: transform 0.4s ease;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+.gallery {
+  margin-top: 150px;
+
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 200px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  justify-content: center;
+
+  width: 100%;
+  gap: 40px;
+}
+
+.blue_vic.nav {
+  color: #ffffff;
+}
+
+.jet_vic.nav {
+  color: #ffffff;
+}
+
+#video_div {
+  margin-top: 150px;
+  margin-bottom: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+video {
+  width: 80%;
 }

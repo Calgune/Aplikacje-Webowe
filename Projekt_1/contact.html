@@ -6,20 +6,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body class="contact-body">
-    <div
-      class="red_vic"
-      ,
-      style="display: flex; flex-direction: column; align-items: center"
-    >
-      <header class="megadeth_logo"><img src="logo2.png" /></header>
-      <nav class="navbar">
-        <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+  <div class="header">
+    <div class="logo_and_time">
+      <div id="lg1"></div>
+      <div class="logo"><img src="images/logo1.png"/></div>
+      <div id="clock-container">
+        <div id="clock" style="color: rgb(255, 255, 255)">00:00:00</div>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="jet_vic">
+    <nav class="navbar">
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    
+
+    </div>
+    <div id = "wrapper_container">
 
       <div class="wrapper">
         <form onsubmit="return ValiditeForm()">
@@ -28,16 +37,16 @@
             <div class="input-box-email">
               <input type="text" placeholder="Email" />
             </div>
-
+  
             <div class="input-box-topic">
               <input list="cells" , placeholder="Topic" />
             </div>
           </div>
-
+  
           <div class="contents">
             <textarea placeholder="Contents"></textarea>
           </div>
-
+  
           <datalist id="cells">
             <option
               value="Question about Megadeth’s lineup changes over the years"
@@ -48,7 +57,7 @@
             ></option>
             <option value="Feedback about your Megadeth history page"></option>
           </datalist>
-
+  
           <button type="submit" class="btn">Send</button>
         </form>
       </div>
