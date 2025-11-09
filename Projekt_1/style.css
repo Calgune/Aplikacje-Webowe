@@ -1,6 +1,6 @@
 @font-face {
   font-family: "MetalFont";
-  src: url(MetalMania-Regular.ttf);
+  src: url(fonts/MetalMania-Regular.ttf);
 }
 
 * {
@@ -18,11 +18,62 @@ body {
   font-family: MetalFont;
 }
 
-#rect1 {
+#taken-li {
+  border-radius: 20px;
+  animation-name: skew-x-shaking;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.rect1 {
   width: 20%;
 }
 
-.logo_and_time {
+.rect1 img {
+  height: 50px;
+  opacity: 0.3;
+}
+
+.rect1 img {
+  opacity: 0.3;
+  transition: 1s ease;
+
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-delay: 0s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.rect1 img:hover {
+  height: 100%;
+  opacity: 1;
+  transition: 1s ease;
+}
+
+.rect1 img:hover {
+  height: 80px;
+  opacity: 1;
+  transition: 1s ease;
+}
+
+.rect1 img:active {
+  height: 80px;
+  opacity: 1;
+  transition: 0.2s ease;
+  scale: 1.2;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.logo-and-time {
   display: flex;
   background-color: transparent;
   width: 100%;
@@ -92,13 +143,8 @@ body {
 }
 
 .navbar a:hover {
-  border-radius: 20px;
-  background-color: rgba(124, 124, 124, 0.24);
-
-  animation-name: skew-x-shaking;
-  animation-duration: 0.5s;
-  animation-iteration-count: infinite;
-  animation-delay: 0.5s;
+  transition: transform 0.5s ease; 
+  transform: translateY(-20px);
 }
 
 @keyframes skew-x-shaking {
@@ -136,7 +182,7 @@ body {
   color: white;
 }
 
-.basic_band_info {
+.band-containter {
   margin: 100px;
   margin-top: 250px;
   margin-bottom: 250px;
@@ -148,24 +194,24 @@ body {
   flex-wrap: wrap;
 }
 
-.basic_band_info .image_div {
+.band-containter .image-band-div {
   max-width: 600px;
   min-width: 360px;
   border-radius: 40px;
 }
 
-.basic_band_info .image_div img {
+.band-containter .image-band-div img {
   border-radius: 40px;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.basic_band_info:nth-child(even) {
+.band-containter:nth-child(even) {
   flex-direction: row-reverse;
 }
 
-.basic_band_text {
+.band-item {
   font-size: 20px;
 
   gap: 40px;
@@ -181,7 +227,7 @@ body {
   width: max(50%, 400px);
 }
 
-.basic_band_text h1 {
+.band-item h1 {
   font-size: 38px;
   display: flex;
   color: white;
@@ -198,7 +244,7 @@ body {
   width: 100%;
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, black 100%),
-    url(tlo-ps.jpg);
+    url(images/background_red.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -216,7 +262,7 @@ body {
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, black 100%),
     linear-gradient(to top, rgba(0, 0, 0, 0) 80%, rgb(0, 0, 0) 100%),
-    url(images/jet_vic_background.jpg);
+    url(images/background_jet.jpg);
 
   background-size: cover;
   background-position: center;
@@ -235,7 +281,8 @@ body {
   width: 100%;
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, black 100%),
-    linear-gradient(to top, rgba(0, 0, 0, 0) 70%, black 100%), url(tlo-rip.webp);
+    linear-gradient(to top, rgba(0, 0, 0, 0) 70%, black 100%),
+    url(images/background_blue.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -338,7 +385,7 @@ textarea::placeholder {
 
   display: grid;
   grid-template-rows: repeat(auto-fit, 200px);
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, 200px);
 
   justify-content: center;
 
@@ -387,7 +434,7 @@ img:hover {
   transform: scale(1.1);
 }
 
-#video_div {
+#video-div {
   margin-top: 150px;
   margin-bottom: 150px;
   display: flex;
@@ -408,4 +455,9 @@ footer {
   color: white;
   text-align: center;
   height: 200px;
+}
+
+audio {
+  min-height: 30px;
+  min-width: 100px;
 }
