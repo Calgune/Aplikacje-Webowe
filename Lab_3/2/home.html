@@ -8,30 +8,30 @@
 
   <body>
     <main>
-      <h1 id="stoper">0s</h1>
       <div id="buttons">
-        <div>
-          <p></p>
-          <input type="number" />
+        <div class="vertical">
+          <p>Minimalna długość hasła</p>
+          <input type="number" id="min" min="1"/>
         </div>
 
-        <div>
-          <p></p>
-          <input type="number" />
+        <div class="vertical">
+          <p>Maksymalna długość hasła</p>
+          <input type="number" id="max" min="1"/>
         </div>
 
-        <div>
-          <p></p>
-          <input type="checkbox" />
+        <div class="vertical">
+          <p>Czy hasło ma zawierać wielkie litery?</p>
+          <input type="checkbox" id="capi"/>
         </div>
 
-        <div>
-          <p></p>
-          <input type="checkbox" />
+        <div class="vertical">
+          <p>Czy hasło ma zawierać znaki specjalne?</p>
+          <input type="checkbox" id="spec"/>
         </div>
 
-        <input type="checkbox" />
-        <button>Wygeneruj hasło</button>
+        <div class="vertical">
+          <button onclick="generatePassword()">Wygeneruj hasło</button>
+        </div>
       </div>
     </main>
 

@@ -1,40 +1,38 @@
-var timeElapsed = 0;
-var timerID = -1;
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-function formatTime(totalSeconds) {
-  var minutes = Math.floor(totalSeconds / 60);
-  var seconds = totalSeconds % 60;
-  var formattedTime = "";
+function generatePassword() {
 
-  if (minutes > 0) {
-    formattedTime = minutes + "min " + seconds + "s";
-  } else {
-    formattedTime = seconds + "s";
+  const maxSize = Number(document.getElementById("max").value)
+  const minSize = Number(document.getElementById("min").value)
+  const hasCapitalLetters = document.getElementById("capi").checked
+  const hasSpecialLetters = document.getElementById("spec").checked
+
+  if (maxSize < minSize || minSize < 0 || maxSize < 0 || minSize == "" || maxSize == ""){
+    alert("Podaj poprawne dane!");
+    return; 
   }
 
-  return formattedTime;
-}
+  const lower = "abcdefghijklmnopqrstuvwxyz0123456789"
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  const special = "!@#$%^&*()_-+=<>?"
 
-function tick() {
-  timeElapsed++;
-  document.getElementById("stoper").innerHTML = formatTime(timeElapsed);
-}
+  var range = lower
 
-function start() {
-  if (timerID == -1) {
-    timerID = setInterval(tick, 1000);
+  if(hasCapitalLetters){
+    range += upper
   }
-}
-
-function stop() {
-  if (timerID != -1) {
-    clearInterval(timerID);
-    timerID = -1;
+  if(hasSpecialLetters){
+    range += special
   }
-}
 
-function reset() {
-  stop();
-  timeElapsed = 0;
-  document.getElementById("stoper").innerHTML = formatTime(timeElapsed);
+  var password = ""
+  const length = Number(randomInt(minSize, maxSize))
+  for (let i = 0; i < length; i++) {
+    const randomIndex = randomInt(0, range.length-1);
+    password += range[randomIndex];
+  }
+
+  alert(password)
 }
