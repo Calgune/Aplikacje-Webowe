@@ -194,7 +194,7 @@ class Vector2d {
 }
 
 const obstacleWidth = 52;
-const gapWidth = 300; // 150
+const gapWidth = 200; // 150
 const distanceBetweenObstacles = 200;
 const gapDifferances = 70;
 
