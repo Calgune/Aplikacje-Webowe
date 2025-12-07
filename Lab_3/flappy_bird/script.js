@@ -134,9 +134,37 @@ class screenNumber {
     this.score += 1;
   }
 
-  setFromLocalStorage() {}
+  setScoreFromLocalStorage() {
+    const data = localStorage.getItem("topScores");
 
-  updateLocalStorage() {}
+    if (data) {
+      const scores = JSON.parse(data);
+      this.score = scores[0] || 0;
+    } else {
+      const initScores = [0, 0, 0, 0, 0];
+      localStorage.setItem("topScores", JSON.stringify(initScores));
+      this.score = 0;
+    }
+  }
+
+  updateLocalStorage(act_score) {
+    console.log(111);
+    let scores = JSON.parse(localStorage.getItem("topScores"));
+
+    if (!scores) {
+      scores = [0, 0, 0, 0, 0];
+    }
+    scores.push(act_score);
+    scores.sort((a, b) => b - a);
+    scores = scores.slice(0, 5);
+    localStorage.setItem("topScores", JSON.stringify(scores));
+  }
+
+  getBestScore() {
+    const scores = JSON.parse(localStorage.getItem("topScores"));
+    if (!scores || scores.length === 0) return 0;
+    return scores[0];
+  }
 
   draw(ctx, x, y) {
     let copyScore = this.score;
@@ -213,12 +241,12 @@ function generateNextObstacle(previousObtsacle) {
   // );
 
   upRect = new Rectangle(
-    new Vector2d(gap_x, -800),
+    new Vector2d(gap_x, -4000),
     new Vector2d(gap_x + obstacleWidth, gap_y)
   );
   downRect = new Rectangle(
     new Vector2d(gap_x, gap_y + gapWidth),
-    new Vector2d(gap_x + obstacleWidth, 800)
+    new Vector2d(gap_x + obstacleWidth, 4000)
   );
 
   return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
@@ -230,12 +258,12 @@ function generateFirstObstacle() {
   gap_y = randomInt(50, 512 - 50 - gapWidth);
 
   upRect = new Rectangle(
-    new Vector2d(gap_x, -800),
+    new Vector2d(gap_x, -4000),
     new Vector2d(gap_x + obstacleWidth, gap_y)
   );
   downRect = new Rectangle(
     new Vector2d(gap_x, gap_y + gapWidth),
-    new Vector2d(gap_x + obstacleWidth, 800)
+    new Vector2d(gap_x + obstacleWidth, 4000)
   );
 
   return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
@@ -313,6 +341,10 @@ const sixImage = new Image();
 const sevenImage = new Image();
 const eightImage = new Image();
 const nineImage = new Image();
+const backgroundMusic = new Audio("assets/Music/Holywars.mp3");
+
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.5;
 
 backgroundImage.src = "assets/Flappy Bird/background-day.png";
 startImage.src = "assets/UI/message.png";
@@ -356,6 +388,8 @@ function loadAssets() {
     gameOverImage,
     greenPipe,
 
+    backgroundMusic,
+
     zeroImage,
     oneImage,
     twoImage,
@@ -383,6 +417,14 @@ function loadAssets() {
       score = new screenNumber();
       score.setScore(0);
 
+      floor = new Rectangle(
+        new Vector2d(0, backgroundImage.height),
+        new Vector2d(
+          backgroundImage.width,
+          backgroundImage.height + floorImage.height
+        )
+      );
+
       hitted = false;
       initBird();
       initObstacles();
@@ -408,21 +450,7 @@ function blockClicksFor(ms) {
   setTimeout(() => (clickBlocked = false), ms);
 }
 
-const floor = new Rectangle(
-  new Vector2d(0, backgroundImage.height),
-  new Vector2d(
-    backgroundImage.width,
-    backgroundImage.height + floorImage.height
-  )
-);
-
-// backgroundImage.onload = function () {
-//   startImage.onload = function () {
-//     initObstacles();
-//     gameLoop();
-//   };
-// };
-
+let floor;
 let vx = 2;
 let vy = 0;
 
@@ -599,6 +627,8 @@ function updateGame() {
   }
 
   if (floor.isIntersecting(getBirdRect())) {
+    bestScore.updateLocalStorage(score.score);
+    bestScore.setScoreFromLocalStorage();
     dieSound.play();
     y = backgroundImage.height - 5;
     vx = 0;
@@ -643,6 +673,30 @@ function isIntersecting(rect) {
   leftUpper, (lowerRight = getBirdBounds());
 }
 
+ctx.fillStyle = "white";
+ctx.font = "35px 'Press Start 2P'";
+function printEndingText(ctx) {
+  const m1 = ctx.measureText("Play again!");
+  const m2 = ctx.measureText("Best score");
+  const m3 = ctx.measureText("Current score");
+
+  ctx.fillText(
+    "Play again!",
+    backgroundImage.width / 2 - m1.width / 2,
+    backgroundImage.height / 2 + 180
+  );
+  ctx.fillText(
+    "Best score",
+    backgroundImage.width / 2 - m2.width / 2,
+    backgroundImage.height / 2 - 70
+  );
+  ctx.fillText(
+    "Current score",
+    backgroundImage.width / 2 - m3.width / 2,
+    backgroundImage.height / 2 + 20
+  );
+}
+
 function gameLoop() {
   clear();
   drawBackground();
@@ -650,11 +704,14 @@ function gameLoop() {
 
   switch (gameState) {
     case "START":
+      backgroundMusic.pause();
       drawStartMenu();
       drawBird();
+      score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
 
       break;
     case "PLAYING":
+      backgroundMusic.play();
       updateGame();
       handleObstacles();
       drawObstacles(ctx);
@@ -666,6 +723,18 @@ function gameLoop() {
       drawObstacles(ctx);
       drawGameOver();
       drawBird();
+      bestScore.draw(
+        ctx,
+        backgroundImage.width / 2 - NUMBER_WIDTH / 2,
+        backgroundImage.height / 2 - 50
+      );
+      score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
+      score.draw(
+        ctx,
+        backgroundImage.width / 2 - NUMBER_WIDTH / 2,
+        backgroundImage.height / 2 + 40
+      );
+      printEndingText(ctx);
       break;
   }
   requestAnimationFrame(gameLoop);
