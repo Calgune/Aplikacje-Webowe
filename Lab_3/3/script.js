@@ -1,11 +1,14 @@
 // script.js
 
 let products = []
+let orginalOrder = []
 
 fetch("https://dummyjson.com/products")
   .then(response => response.json())
   .then(data => {
     products = data.products.slice(0, 30)
+    orginalOrder = data.products.slice(0, 30)
+
     display(products)
   })
   .catch(error => console.error("Błąd przy pobieraniu danych:", error));
@@ -13,6 +16,7 @@ fetch("https://dummyjson.com/products")
 
   function display(products){
     const tbody = document.querySelector("#products tbody")
+    tbody.innerHTML = ""
 
     products.forEach(product => {
       const tr = document.createElement("tr")
@@ -39,16 +43,14 @@ fetch("https://dummyjson.com/products")
 
   searchInput.addEventListener("input", () =>{
     const pattern = String(searchInput.value).toLowerCase()
-    if(pattern == "") return
-
-    console.log(pattern)
+    if(pattern == "") {
+      display(products)
+      return
+    }
 
     const filteredProducts = products.filter(product => {
       return product.title.toLowerCase().includes(pattern)
     })
-
-    const tbody = document.querySelector("#products tbody");
-    tbody.innerHTML = ""
 
     display(filteredProducts)
 
@@ -57,9 +59,19 @@ fetch("https://dummyjson.com/products")
 
   const orderButton = document.getElementById("order")
 
-  orderButton.addEventListener("click", () => {
-    
+  orderButton.addEventListener("change", () => {
+    const selectedValue = orderButton.value
 
+    if(selectedValue == 'asc'){
+      products = products.sort((a, b) => a.title.localeCompare(b.title))
+    }
+    else if (selectedValue == 'desc'){
+      products = products.sort((a, b) => b.title.localeCompare(a.title))
+    }
+    else{
+      products = orginalOrder
+    }
+    display(products)
   })
 
 

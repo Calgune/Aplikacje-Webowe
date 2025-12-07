@@ -10,10 +10,14 @@
     <main>
       <div id="bar">
         <p></p>
-        <input id = "search_input"/>
+        <input id="search_input" />
 
         <p></p>
-        <button id = "order">order by</button>
+        <select name="order" id="order">
+          <option value="normal">oryginalna kolejność</option>
+          <option value="asc">rosnąco</option>
+          <option value="desc">malejąco</option>
+        </select>
       </div>
 
       <table id="products">

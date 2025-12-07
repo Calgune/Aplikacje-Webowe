@@ -1,0 +1,11 @@
+canvas {
+  background: #eeeeee;
+}
+button {
+  display: block;
+}
+
+#game_container{
+    display: flex;
+    justify-content: center;
+}
