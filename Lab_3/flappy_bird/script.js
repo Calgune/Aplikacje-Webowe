@@ -1,13 +1,3 @@
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function inRange(liczba, min, max) {
-  if (liczba < min) return min;
-  if (liczba > max) return max;
-  return liczba;
-}
-
 class Rectangle {
   constructor(upperLeft, lowerRight) {
     this.upperLeft = upperLeft;
@@ -20,13 +10,11 @@ class Rectangle {
       otherRect.lowerRight.x < this.upperLeft.x
     )
       return false;
-
     if (
       this.upperLeft.y > otherRect.lowerRight.y ||
       otherRect.upperLeft.y > this.lowerRight.y
     )
       return false;
-
     return true;
   }
 
@@ -42,11 +30,6 @@ class Rectangle {
     );
   }
 }
-
-const obstacleWidth = 52;
-const gapWidth = 300; // 150
-const distanceBetweenObstacles = 200;
-const gapDifferances = 70;
 
 class Obstacle {
   constructor(upRect, downRect, gapUpperLeft) {
@@ -74,10 +57,7 @@ class Obstacle {
     return this.downRect.lowerRight.x <= 0;
   }
 
-  //52x320
   draw(ctx) {
-    // down
-
     ctx.drawImage(
       greenPipe,
       0,
@@ -113,9 +93,6 @@ class Obstacle {
     ctx.restore();
   }
 }
-//24x36
-const NUMBER_WIDTH = 24;
-const NUMBER_HEIGHT = 36;
 
 class screenNumber {
   constructor() {
@@ -148,7 +125,6 @@ class screenNumber {
   }
 
   updateLocalStorage(act_score) {
-    console.log(111);
     let scores = JSON.parse(localStorage.getItem("topScores"));
 
     if (!scores) {
@@ -188,8 +164,6 @@ class screenNumber {
     }
 
     while (copyScore > 0) {
-      //console.log(copyScore);
-
       let curr = copyScore % 10;
       copyScore = Math.floor(copyScore / 10);
 
@@ -212,92 +186,6 @@ class screenNumber {
   }
 }
 
-function getNumbersScreenSize(number) {
-  const digits = number.toString();
-  let totalWidth = 0;
-
-  for (let i = 0; i < digits.length; i++) {
-    const prop = getNumberProperties(Number(digits[i]));
-    totalWidth += prop.width;
-  }
-
-  return {
-    width: totalWidth,
-    height: 36,
-  };
-}
-
-function generateNextObstacle(previousObtsacle) {
-  previous_gap_y = previousObtsacle.gapUpperLeft.y;
-
-  gap_x = previousObtsacle.gapUpperLeft.x + randomInt(100, 200) + 40;
-  gap_y = randomInt(50, 512 - 50 - gapWidth); //inRange(
-  // randomInt(
-  //   previous_gap_y - gapDifferances,
-  //   previous_gap_y + gapWidth + gapDifferances
-  // ),
-  //   50,
-  //   512 - 50 - gapWidth
-  // );
-
-  upRect = new Rectangle(
-    new Vector2d(gap_x, -4000),
-    new Vector2d(gap_x + obstacleWidth, gap_y)
-  );
-  downRect = new Rectangle(
-    new Vector2d(gap_x, gap_y + gapWidth),
-    new Vector2d(gap_x + obstacleWidth, 4000)
-  );
-
-  return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
-}
-
-//288x512
-function generateFirstObstacle() {
-  gap_x = 340;
-  gap_y = randomInt(50, 512 - 50 - gapWidth);
-
-  upRect = new Rectangle(
-    new Vector2d(gap_x, -4000),
-    new Vector2d(gap_x + obstacleWidth, gap_y)
-  );
-  downRect = new Rectangle(
-    new Vector2d(gap_x, gap_y + gapWidth),
-    new Vector2d(gap_x + obstacleWidth, 4000)
-  );
-
-  return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
-}
-
-function getNumberProperties(number) {
-  const size = {
-    0: { image: zeroImage, width: zeroImage.width, height: zeroImage.height },
-    1: { image: oneImage, width: oneImage.width, height: oneImage.height },
-    2: { image: twoImage, width: twoImage.width, height: twoImage.height },
-    3: {
-      image: threeImage,
-      width: threeImage.width,
-      height: threeImage.height,
-    },
-    4: { image: fourImage, width: fourImage.width, height: fourImage.height },
-    5: { image: fiveImage, width: fiveImage.width, height: fiveImage.height },
-    6: { image: sixImage, width: sixImage.width, height: sixImage.height },
-    7: {
-      image: sevenImage,
-      width: sevenImage.width,
-      height: sevenImage.height,
-    },
-    8: {
-      image: eightImage,
-      width: eightImage.width,
-      height: eightImage.height,
-    },
-    9: { image: nineImage, width: nineImage.width, height: nineImage.height },
-  };
-
-  return size[number];
-}
-
 class Vector2d {
   constructor(x, y) {
     this.x = x;
@@ -305,18 +193,13 @@ class Vector2d {
   }
 }
 
-function initGame() {
-  score.reset();
-  hitted = false;
-  initBird();
-  initObstacles();
-}
+const obstacleWidth = 52;
+const gapWidth = 300; // 150
+const distanceBetweenObstacles = 200;
+const gapDifferances = 70;
 
-let obstacles = [];
-let points = 0;
-
-const gap_heigth = 100;
-const max_heigth = 500;
+const NUMBER_WIDTH = 24;
+const NUMBER_HEIGHT = 36;
 
 // 'START', 'PLAYING', 'GAME_OVER'
 let gameState = "START";
@@ -378,6 +261,128 @@ wingSound.src = "assets/Sound Efects/wing.ogg";
 
 let score = new screenNumber();
 let bestScore = new screenNumber();
+
+let clickBlocked = false;
+let floor;
+let vx = 2;
+let vy = 0;
+
+let hitted = false;
+
+let floorX = 0;
+let floorV = 1;
+
+let BIRD_WIDTH = 34;
+let BIRD_HEIGHT = 24;
+
+let START_BIRD_X = backgroundImage.width / 2 - 70;
+let START_BIRD_Y = backgroundImage.height / 2 + 70;
+
+let ay = 2;
+let ag = -0.3;
+
+let x = START_BIRD_X;
+let y = START_BIRD_Y;
+
+let timer = 0;
+let frameX = 0;
+
+ctx.fillStyle = "white";
+ctx.font = "35px 'Press Start 2P'";
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function inRange(liczba, min, max) {
+  if (liczba < min) return min;
+  if (liczba > max) return max;
+  return liczba;
+}
+
+function getNumbersScreenSize(number) {
+  const digits = number.toString();
+  let totalWidth = 0;
+
+  for (let i = 0; i < digits.length; i++) {
+    const prop = getNumberProperties(Number(digits[i]));
+    totalWidth += prop.width;
+  }
+  return {
+    width: totalWidth,
+    height: 36,
+  };
+}
+
+function generateNextObstacle(previousObtsacle) {
+  previous_gap_y = previousObtsacle.gapUpperLeft.y;
+
+  gap_x = previousObtsacle.gapUpperLeft.x + randomInt(100, 200) + 40;
+  gap_y = randomInt(50, 512 - 50 - gapWidth); 
+
+  upRect = new Rectangle(
+    new Vector2d(gap_x, -4000),
+    new Vector2d(gap_x + obstacleWidth, gap_y)
+  );
+  downRect = new Rectangle(
+    new Vector2d(gap_x, gap_y + gapWidth),
+    new Vector2d(gap_x + obstacleWidth, 4000)
+  );
+
+  return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
+}
+
+function generateFirstObstacle() {
+  gap_x = 340;
+  gap_y = randomInt(50, 512 - 50 - gapWidth);
+
+  upRect = new Rectangle(
+    new Vector2d(gap_x, -4000),
+    new Vector2d(gap_x + obstacleWidth, gap_y)
+  );
+  downRect = new Rectangle(
+    new Vector2d(gap_x, gap_y + gapWidth),
+    new Vector2d(gap_x + obstacleWidth, 4000)
+  );
+
+  return new Obstacle(upRect, downRect, new Vector2d(gap_x, gap_y));
+}
+
+function getNumberProperties(number) {
+  const size = {
+    0: { image: zeroImage, width: zeroImage.width, height: zeroImage.height },
+    1: { image: oneImage, width: oneImage.width, height: oneImage.height },
+    2: { image: twoImage, width: twoImage.width, height: twoImage.height },
+    3: {
+      image: threeImage,
+      width: threeImage.width,
+      height: threeImage.height,
+    },
+    4: { image: fourImage, width: fourImage.width, height: fourImage.height },
+    5: { image: fiveImage, width: fiveImage.width, height: fiveImage.height },
+    6: { image: sixImage, width: sixImage.width, height: sixImage.height },
+    7: {
+      image: sevenImage,
+      width: sevenImage.width,
+      height: sevenImage.height,
+    },
+    8: {
+      image: eightImage,
+      width: eightImage.width,
+      height: eightImage.height,
+    },
+    9: { image: nineImage, width: nineImage.width, height: nineImage.height },
+  };
+
+  return size[number];
+}
+
+function initGame() {
+  score.reset();
+  hitted = false;
+  initBird();
+  initObstacles();
+}
 
 function loadAssets() {
   const assets = [
@@ -443,16 +448,10 @@ function loadAssets() {
   });
 }
 
-let clickBlocked = false;
-
 function blockClicksFor(ms) {
   clickBlocked = true;
   setTimeout(() => (clickBlocked = false), ms);
 }
-
-let floor;
-let vx = 2;
-let vy = 0;
 
 document.addEventListener("keydown", (event) => {
   if (event.code !== "Space") return;
@@ -463,19 +462,15 @@ document.addEventListener("keydown", (event) => {
   if (gameState == "START") {
     swooshSound.play();
     gameState = "PLAYING";
-  } else if (gameState == "PLAYING") {
-    if (!hitted) {
-      vy = -7;
-      wingSound.play();
-    }
+  } else if (gameState == "PLAYING" && !hitted) {
+    vy = -7;
+    wingSound.play();
   } else if (gameState == "GAME_OVER") {
     initGame();
     swooshSound.play();
     gameState = "START";
   }
 });
-
-loadAssets();
 
 function drawStartMenu() {
   ctx.drawImage(
@@ -507,11 +502,6 @@ function drawGameOver() {
   );
 }
 
-let hitted = false;
-
-let floorX = 0;
-let floorV = 1;
-
 function drawFloor() {
   ctx.drawImage(
     floorImage,
@@ -525,18 +515,6 @@ function drawFloor() {
     floorImage.height
   );
 }
-
-let BIRD_WIDTH = 34;
-let BIRD_HEIGHT = 24;
-
-let START_BIRD_X = backgroundImage.width / 2 - 70;
-let START_BIRD_Y = backgroundImage.height / 2 + 70;
-
-let ay = 2;
-let ag = -0.3;
-
-let x = START_BIRD_X;
-let y = START_BIRD_Y;
 
 function initBird() {
   vx = 1;
@@ -578,14 +556,11 @@ function handleObstacles() {
   });
 }
 
-function drawObstacles(ctx) {
+function drawObstacles() {
   obstacles.forEach((obstacle) => {
     obstacle.draw(ctx);
   });
 }
-
-let timer = 0;
-let frameX = 0;
 
 function angleMapping(x) {
   const NEG_MAX_X = -7.3;
@@ -609,31 +584,28 @@ function angleMapping(x) {
 
 function updateGame() {
   //update bird
-  if (timer % 6 == 0) {
-    frameX += 1;
-  }
-  if (frameX > 2) {
-    frameX = 0;
-  }
+  if (timer % 6 == 0) frameX += 1;
+  if (frameX > 2) frameX = 0;
 
-  y = y + vy;
-  vy = vy - ag;
+  y += vy;
+  vy -= ag;
   timer += 1;
-  //update floor
 
+  //update floor
   floorX += floorV;
   if (floorX >= 50) {
     floorX = 0;
   }
 
   if (floor.isIntersecting(getBirdRect())) {
+    dieSound.play();
     bestScore.updateLocalStorage(score.score);
     bestScore.setScoreFromLocalStorage();
-    dieSound.play();
+    blockClicksFor(200);
+
+    gameState = "GAME_OVER";
     y = backgroundImage.height - 5;
     vx = 0;
-    blockClicksFor(200);
-    gameState = "GAME_OVER";
   }
 }
 
@@ -654,7 +626,6 @@ function drawBird() {
     BIRD_WIDTH,
     BIRD_HEIGHT
   );
-
   ctx.restore();
 }
 
@@ -669,13 +640,18 @@ function getBirdRect() {
   );
 }
 
-function isIntersecting(rect) {
-  leftUpper, (lowerRight = getBirdBounds());
-}
+function printEndingText() {
+  bestScore.draw(
+    ctx,
+    backgroundImage.width / 2 - NUMBER_WIDTH / 2,
+    backgroundImage.height / 2 - 50
+  );
+  score.draw(
+    ctx,
+    backgroundImage.width / 2 - NUMBER_WIDTH / 2,
+    backgroundImage.height / 2 + 40
+  );
 
-ctx.fillStyle = "white";
-ctx.font = "35px 'Press Start 2P'";
-function printEndingText(ctx) {
   const m1 = ctx.measureText("Play again!");
   const m2 = ctx.measureText("Best score");
   const m3 = ctx.measureText("Current score");
@@ -697,6 +673,10 @@ function printEndingText(ctx) {
   );
 }
 
+function drawScore() {
+  score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
+}
+
 function gameLoop() {
   clear();
   drawBackground();
@@ -707,35 +687,25 @@ function gameLoop() {
       backgroundMusic.pause();
       drawStartMenu();
       drawBird();
-      score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
-
       break;
+
     case "PLAYING":
       backgroundMusic.play();
       updateGame();
       handleObstacles();
-      drawObstacles(ctx);
+      drawObstacles();
       drawBird();
-      score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
-
       break;
+
     case "GAME_OVER":
-      drawObstacles(ctx);
+      drawObstacles();
       drawGameOver();
       drawBird();
-      bestScore.draw(
-        ctx,
-        backgroundImage.width / 2 - NUMBER_WIDTH / 2,
-        backgroundImage.height / 2 - 50
-      );
-      score.draw(ctx, backgroundImage.width - NUMBER_WIDTH - 10, 10);
-      score.draw(
-        ctx,
-        backgroundImage.width / 2 - NUMBER_WIDTH / 2,
-        backgroundImage.height / 2 + 40
-      );
-      printEndingText(ctx);
+      printEndingText();
       break;
   }
+  drawScore();
   requestAnimationFrame(gameLoop);
 }
+
+loadAssets();
