@@ -279,7 +279,7 @@ let START_BIRD_X = backgroundImage.width / 2 - 70;
 let START_BIRD_Y = backgroundImage.height / 2 + 70;
 
 let ay = 2;
-let ag = -0.3;
+let ag = -0.15;
 
 let x = START_BIRD_X;
 let y = START_BIRD_Y;
@@ -463,7 +463,7 @@ document.addEventListener("keydown", (event) => {
     swooshSound.play();
     gameState = "PLAYING";
   } else if (gameState == "PLAYING" && !hitted) {
-    vy = -7;
+    vy = -4.5;
     wingSound.play();
   } else if (gameState == "GAME_OVER") {
     initGame();
@@ -584,7 +584,7 @@ function angleMapping(x) {
 
 function updateGame() {
   //update bird
-  if (timer % 6 == 0) frameX += 1;
+  if (timer % 12 == 0) frameX += 1;
   if (frameX > 2) frameX = 0;
 
   y += vy;
@@ -643,7 +643,7 @@ function getBirdRect() {
 function printEndingText() {
   bestScore.draw(
     ctx,
-    backgroundImage.width / 2 - NUMBER_WIDTH / 2,
+    backgroundImage.width / 2,
     backgroundImage.height / 2 - 50
   );
   score.draw(
