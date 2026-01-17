@@ -8,9 +8,6 @@ app.use(express.json());
 
 const JWT_SECRET = "KLUCZ_123";
 
-/* eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc2NzAxMzg5NSwiZXhwIjoxNzY3MDE3NDk1fQ.SX9Mu9VzL5FOmGk7PuW9JY2AT58J9dM48uzknktKxxE */
-// REJESTRACJA
-// zrobić aby nie dało się zarejestorać na tego samego maila
 app.post("/api/register", async (req, res) => {
   const { email, password } = req.body;
 
