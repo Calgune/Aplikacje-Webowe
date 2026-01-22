@@ -15,6 +15,7 @@ import Tytul from "./components/efekty/Tytul";
 import Odliczanie from "./components/efekty/Odliczanie";
 
 import Komentarze from "./components/produkty/Komentarze";
+import Formularz from "./components/formularze/Formularz";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
       <h2>Zadanie 2 – Licznik</h2>
       <Licznik />
       <NowyLicznik />
+
+      <Formularz></Formularz>
 
       <hr />
       <h2>Zadanie 4 – Inne</h2>
